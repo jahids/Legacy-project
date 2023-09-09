@@ -99,10 +99,14 @@ const Login = () => {
               isClosable: true,
             });
             if (localStorage.getItem('accessToken')) {
+              
               const cyclist = await profile(token);
 
               if (cyclist && cyclist.bicycle) {
+            
                 navigate('/home');
+                
+               
               } else {
                 navigate('/setup-daily-route');
               }

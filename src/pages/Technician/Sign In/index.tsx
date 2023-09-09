@@ -28,9 +28,11 @@ const TechnicianSignIn = () => {
 			const technicianSignInData = { email, password };
 			const result = await TechnicianSignInService(technicianSignInData);
 			localStorage.setItem("technisianToken",result?.accessToken)
+			
 			console.log("tecnisian result", result)
 			if (result) {
 				navigate('/agenda');
+				window.location.reload();
 			}
 		} catch (error) {
 			console.error('Error before posting in backend!');

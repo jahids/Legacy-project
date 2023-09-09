@@ -1,15 +1,18 @@
+/* eslint-disable react-hooks/rules-of-hooks */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Button, Center } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { Text } from '@chakra-ui/react';
 import { months } from '../../data/months';
 import { getCyclistName, profile } from '../../services/authentication';
-import { parts } from '../../data/partsData';
+// import { parts } from '../../data/partsData';
 import { getAllSubpart } from '../../services/bikeDetails';
 import { getTimeSlots, order } from '../../services/order';
 import { getCaseNumber, passiveCase } from '../../services/cases';
 import { useNavigate } from 'react-router-dom';
+import CustomInstance from '../../lib/axios';
 
-let arr: any[] = [
+const arr: any[] = [
   {
     type: 'text',
     data: ['Hi', 'Select which issues you are facing so that we can help'],
@@ -172,6 +175,38 @@ const Chat: React.FC = () => {
   const [getSubpart, setGetSubpart] = useState<any[]>([]);
   const [getSlot, setGetSlot] = useState<any[]>([]);
   const [timeSlotsPerDay, setTimeSlotsPerDay] = useState<{ day: string; slots: string[] }[]>([]);
+  const [selectedSubpart, setselectedSubpart] = useState([])
+  const [parts, setparts] = useState(null)
+  
+
+
+  useEffect(() => {
+
+      const samefunc = async () => {
+        const data = await CustomInstance.get(`/cyclist/all-subpart`)
+        setparts(data?.data)
+        console.log(data)
+      }
+   
+      samefunc()
+  
+   
+   }, [parts?.length])
+  
+
+
+  useEffect(() => {
+    if(selectedSubpart.length > 0){
+      const samefunc = async() => {
+        const data = await CustomInstance.post(`/cyclist/available-support-time`,selectedSubpart)
+      }
+
+      samefunc()
+    }
+
+   
+   }, [selectedSubpart])
+
 
   useEffect(() => {
     const getData = async () => {
@@ -200,7 +235,7 @@ const Chat: React.FC = () => {
   }, []);
 
   const creatingCase = async () => {
-    let newCase = {
+    const newCase = {
       type: 'Active',
       tags: [],
       note: [{ text: 'Active case', timeStamp: new Date() }],
@@ -208,19 +243,28 @@ const Chat: React.FC = () => {
       orderId: '',
     };
 
-    newCase.tags = messages[5].data.reduce((accumulator: any[], subpart: any) => {
-      if (subpart.selected) {
-        accumulator.push(subpart.value);
-      }
-      return accumulator;
-    }, []);
+   
+    // newCase.tags = messages[5]?.data?.reduce((accumulator: any[], subpart: any) => {
+    //   console.log("msg 5--",subpart?.selected)
+    //   if (subpart?.selected) {
+    //     console.log("msg 5",subpart?.selected)
+    //     accumulator.push(subpart?.value);
+    //   }
+    //   return accumulator;
+    // }, []);
 
-    const selectedDay = messages[7].data.filter((day: any) => day.selected);
-    const selectedSlot = messages[9].data.filter((slot: any) => slot.selected);
+    newCase.tags = (messages[5]?.data || [])
+    .filter((subpart : any) => subpart?.selected)
+    .map((subpart : any) => subpart?.value);
+  
+
+
+    const selectedDay = messages[7]?.data?.filter((day: any) => day.selected);
+    const selectedSlot = messages[9]?.data?.filter((slot: any) => slot.selected);
 
     const selectedSupportTime = getSlot.reduce((accumulator: any[], slot: any) => {
       if (daysOfTheWeek[new Date(slot.date).getDay()] === selectedDay[0].value) {
-        let supportTime = { slotName: 'B', slotTime: '9:00-10:00', timeStamp: new Date(slot.date) };
+        const supportTime = { slotName: 'B', slotTime: '9:00-10:00', timeStamp: new Date(slot.date) };
 
         const bookedSlot = slot.slots.filter((slot: any) => {
           return slot.slotTime.split('-')[0] === selectedSlot[0].value;
@@ -237,7 +281,7 @@ const Chat: React.FC = () => {
 
     newCase.supportTime = selectedSupportTime[0];
 
-    let Order = {
+    const Order = {
       bicycleParts: messages[5].data.reduce((accumulator: any[], subpart: any) => {
         if (subpart.selected) {
           const part = getSubpart.filter((part) => {
@@ -276,71 +320,148 @@ const Chat: React.FC = () => {
       return;
     }
 
+    
+
+    // if (curindex === 4) {
+    //   const category = messages[3].data.reduce((accumulator: any[], data: any) => {
+    //     if (data.selected) {
+    //       accumulator.push(data.value.split(' ').join(''));
+    //     }
+
+    //     return accumulator;
+    //   }, []);
+
+    //   console.log(category);
+
+    //   const subpartData: any[] = [];
+
+    //   category.forEach((name: any) => {
+    //     const subparts = parts.reduce((accumulator: any[], part) => {
+    //       if (part.category === name) {
+    //         accumulator.push({ selected: false, value: part.name });
+    //       }
+
+    //       return accumulator;
+    //     }, []);
+    //     subpartData.push(...subparts);
+
+    //     arr[5].data = subpartData;
+    //   });
+    // }
+
     if (curindex === 4) {
-      const category = messages[3].data.reduce((accumulator: any[], data: any) => {
-        if (data.selected) {
-          accumulator.push(data.value.split(' ').join(''));
-        }
-
-        return accumulator;
-      }, []);
-
+      const category = messages[3].data
+        .filter((data: any) => data.selected)
+        .map((data: any) => data.value.split(' ').join(''));
+    
       console.log(category);
-
-      let subpartData: any[] = [];
-
-      category.forEach((name: any) => {
-        const subparts = parts.reduce((accumulator: any[], part) => {
-          if (part.category === name) {
-            accumulator.push({ selected: false, value: part.name });
-          }
-
-          return accumulator;
-        }, []);
-        subpartData.push(...subparts);
-
-        arr[5].data = subpartData;
+    
+      const subpartData = category.flatMap((name: any) => {
+        return parts.length > 0 && parts?.filter((part: any) => part?.category === name)
+          .map((part: any) => ({ selected: false, value: part.name, id: part?._id }));
       });
+    
+      arr[5].data = subpartData;
     }
+
+    // if (curindex === 6) {
+    //   const subpart = messages[5]?.data.filter((part: any) => part.selected);
+
+    //   const subparts = subpart?.reduce((accumulator: any[], value: any) => {
+    //     const part = getSubpart?.filter((subpart) => String(subpart.name) === String(value.value));
+
+    //     accumulator.push(part[0]?._id);
+    //     return accumulator;
+    //   }, []);
+
+    //   console.log(subparts);
+
+    //   (async function getData() {
+    //     const timeSlot = await getTimeSlots({ subparts: subparts });
+    //     console.log(timeSlot);
+
+    //     if (timeSlot && timeSlot?.slots?.length) {
+    //       setGetSlot(timeSlot?.slots);
+
+    //       const days = timeSlot.slots.map((slot: any) => {
+    //         return { value: daysOfTheWeek[new Date(slot.date).getDay()], selected: false };
+    //       });
+
+    //       const technicianTimeSlotsPerDay = timeSlot?.slots.map((timeSlot: any) => {
+    //         const parsedSlots = timeSlot?.slots.map((time: any) => time?.slotTime.split('-')[0]);
+
+    //         return {
+    //           day: daysOfTheWeek[new Date(timeSlot?.date).getDay()],
+    //           slots: parsedSlots,
+    //         };
+    //       });
+
+    //       setTimeSlotsPerDay(technicianTimeSlotsPerDay);
+
+    //       arr[7].data = days;
+    //     }
+    //   })();
+    // }
+
+
 
     if (curindex === 6) {
-      const subpart = messages[5].data.filter((part: any) => part.selected);
-
-      const subparts = subpart.reduce((accumulator: any[], value: any) => {
-        const part = getSubpart.filter((subpart) => String(subpart.name) === String(value.value));
-
-        accumulator.push(part[0]._id);
-        return accumulator;
-      }, []);
-
-      console.log(subparts);
-
-      (async function getData() {
-        const timeSlot = await getTimeSlots({ subparts: subparts });
-        console.log(timeSlot);
-
-        if (timeSlot && timeSlot.slots.length) {
-          setGetSlot(timeSlot.slots);
-
-          const days = timeSlot.slots.map((slot: any) => {
-            return { value: daysOfTheWeek[new Date(slot.date).getDay()], selected: false };
-          });
-
-          const technicianTimeSlotsPerDay = timeSlot.slots.map((timeSlot: any) => {
-            const parsedSlots = timeSlot.slots.map((time: any) => time.slotTime.split('-')[0]);
-
-            return {
-              day: daysOfTheWeek[new Date(timeSlot.date).getDay()],
-              slots: parsedSlots,
-            };
-          });
-
-          setTimeSlotsPerDay(technicianTimeSlotsPerDay);
-
-          arr[7].data = days;
-        }
-      })();
+      
+      const subpart = messages[5]?.data.filter((part: any) => part.selected);
+      console.log("--", messages[5]);
+      
+      if (subpart) {
+        setselectedSubpart(subpart)
+        console.log("--subpart",subpart);
+        
+        const subparts = subpart?.map((value: any) => {
+          const part = getSubpart?.find((subpart) => String(subpart.name) === String(value.value));
+          console.log("subparts before", part);
+          
+          return part?._id;
+        });
+    
+        
+    
+        const fetchData = async () => {
+          try {
+            const timeSlot = await getTimeSlots(selectedSubpart)
+            console.log(timeSlot);
+    
+            if (timeSlot && timeSlot.slots && timeSlot.slots.length) {
+              setGetSlot(timeSlot.slots);
+    
+              const days = timeSlot.slots?.map((slot: any) => ({
+                value: daysOfTheWeek[new Date(slot.date).getDay()],
+                selected: false,
+              }));
+    
+              const technicianTimeSlotsPerDay = timeSlot.slots.map((timeSlot: any) => {
+                const parsedSlots = timeSlot?.slots.map((time: any) => time.slotTime.split('-')[0]);
+    
+                return {
+                  day: daysOfTheWeek[new Date(timeSlot.date).getDay()],
+                  slots: parsedSlots,
+                };
+              });
+    
+              setTimeSlotsPerDay(technicianTimeSlotsPerDay);
+    
+              arr[7].data = days;
+            }
+          } catch (error) {
+            console.error('Error while fetching time slots:', error);
+          }
+        };
+    
+        fetchData();
+      } else {
+        console.log('No selected items in subpart data.');
+      }
     }
+    
+
+
 
     if (curindex === 8) {
       const selectedDayIndex = messages[7].data.findIndex((day: any) => day.selected);
@@ -350,18 +471,18 @@ const Chat: React.FC = () => {
         (timeSlots) => timeSlots.day === messages[7].data[selectedDayIndex].value
       )[0];
 
-      arr[9].data = newTimeSlots.slots.map((slot: string) => {
+      arr[9].data = newTimeSlots?.slots?.map((slot: string) => {
         return { value: slot, selected: false };
       });
     }
 
     if (curindex === 10) {
-      const selectedDay = messages[7].data.filter((day: any) => day.selected);
-      const selectedSlot = messages[9].data.filter((slot: any) => slot.selected);
+      const selectedDay = messages[7].data?.filter((day: any) => day.selected);
+      const selectedSlot = messages[9].data?.filter((slot: any) => slot.selected);
 
       const selectedSupportTime = getSlot.reduce((accumulator: any[], slot: any) => {
         if (daysOfTheWeek[new Date(slot.date).getDay()] === selectedDay[0].value) {
-          let supportTime = {
+          const supportTime = {
             slotName: 'B',
             slotTime: '9:00-10:00',
             timeStamp: new Date(slot.date),
@@ -381,10 +502,10 @@ const Chat: React.FC = () => {
       }, []);
 
       arr[10].data[0] = `Great. You have a call booked for ${
-        daysOfTheWeek[new Date(selectedSupportTime[0].timeStamp).getDay()]
-      }, ${new Date(selectedSupportTime[0].timeStamp).getDate()} ${months[
-        new Date(selectedSupportTime[0].timeStamp).getMonth()
-      ].slice(0, 3)} at ${selectedSupportTime[0].slotTime}.`;
+        daysOfTheWeek[new Date(selectedSupportTime[0]?.timeStamp).getDay()]
+      }, ${new Date(selectedSupportTime[0]?.timeStamp).getDate()} ${months[
+        new Date(selectedSupportTime[0]?.timeStamp).getMonth()
+      ]?.slice(0, 3)} at ${selectedSupportTime[0].slotTime}.`;
     }
 
     setMessages((prev) => [...prev, arr[curindex]]);
@@ -454,7 +575,7 @@ const Chat: React.FC = () => {
               rounded='xl'
               className={item.from === 'bot' ? 'text-[#001F3F]' : ''}
             >
-              {item.data.map((option: any, index2: number) => (
+              {item?.data?.map((option: any, index2: number) => (
                 <Box
                   display={'inline-flex'}
                   alignItems={'center'}

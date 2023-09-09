@@ -26,6 +26,15 @@ const Home = () => {
   };
 
   // useEffect(() => {
+  //   const token = localStorage.getItem("accessToken")
+  //   console.log("home token check", token)
+  //   if(!token){
+  //     window.location.reload();
+  //   }
+  // }, [])
+  
+
+  // useEffect(() => {
   //   const fetchData = async () => {
   //     const _bikeInfo_ = JSON.parse(localStorage.getItem('bikeData')!);
   //     const localBikeId = localStorage.getItem('bikeId');
