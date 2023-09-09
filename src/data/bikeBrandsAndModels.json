@@ -1,0 +1,273 @@
+[
+  {
+    "brand": "Trek",
+    "models": [
+      "Domane",
+      "Émonda",
+      "Madone",
+      "Marlin",
+      "Fuel EX",
+      "Roscoe",
+      "Farley",
+      "Top Fuel",
+      "Session",
+      "Supercaliber",
+      "Full Stache",
+      "Allant",
+      "Verve",
+      "Dual Sport"
+    ]
+  },
+  {
+    "brand": "Giant",
+    "models": [
+      "Defy",
+      "Talon",
+      "Trance",
+      "Anthem",
+      "Reign",
+      "TCR",
+      "Revel",
+      "Escape",
+      "Boulder",
+      "Fathom",
+      "Rincon",
+      "Terrago",
+      "Glory",
+      "Rove",
+      "Seek",
+      "Anyroad",
+      "FastRoad",
+      "Roam"
+    ]
+  },
+  {
+    "brand": "Specialized",
+    "models": [
+      "Roubaix",
+      "Tarmac",
+      "Stumpjumper",
+      "Epic",
+      "Diverge",
+      "Turbo Levo",
+      "Turbo Creo",
+      "S-Works",
+      "Turbo Vado",
+      "Fuse",
+      "Allez",
+      "Turbo Como",
+      "Shiv",
+      "Turbo Kenevo",
+      "Roll",
+      "Riprock"
+    ]
+  },
+  {
+    "brand": "Cannondale",
+    "models": [
+      "Synapse",
+      "SuperSix EVO",
+      "Scalpel",
+      "Trail",
+      "Topstone",
+      "Superslice",
+      "Kinneto",
+      "Slice",
+      "Beast of the East",
+      "Cujo",
+      "Althea",
+      "Quick CX",
+      "Trail Neo",
+      "Canvas",
+      "Quick Neo"
+    ]
+  },
+  {
+    "brand": "Scott",
+    "models": [
+      "Addict",
+      "Spark",
+      "Genius",
+      "Aspect",
+      "Ransom",
+      "Sub Tour",
+      "Speedster",
+      "Scale",
+      "Contessa",
+      "Gambler",
+      "Roxter",
+      "Axis",
+      "Solveig",
+      "Metrix",
+      "Silence",
+      "E-Sub",
+      "E-Spark"
+    ]
+  },
+  {
+    "brand": "Cervélo",
+    "models": [
+      "Caledonia",
+      "S-Series",
+      "Aspero",
+      "R-Series",
+      "P-Series",
+      "C-Series",
+      "R3",
+      "R5",
+      "P3",
+      "P5",
+      "P-Series Ultegra",
+      "P-Series 105",
+      "Caledonia Ultegra",
+      "Caledonia 105"
+    ]
+  },
+  {
+    "brand": "BMC",
+    "models": [
+      "Roadmachine",
+      "Teammachine",
+      "Fourstroke",
+      "Agonist",
+      "Urs",
+      "Roadmachine 01",
+      "Roadmachine 02",
+      "Teammachine SLR01",
+      "Agonist 02",
+      "Agonist 01",
+      "Teammachine ALR DISC",
+      "Speedfox AMP",
+      "Urs TWO",
+      "Urs THREE",
+      "Teammachine 02"
+    ]
+  },
+  {
+    "brand": "Pinarello",
+    "models": [
+      "Dogma F",
+      "Prince FX",
+      "Grevil",
+      "Gan",
+      "Nytro",
+      "Gan GR Disk",
+      "Dogma F10 Disk",
+      "Dogma F12 Disk",
+      "Dogma K8-S Disk",
+      "Prince FX Disk",
+      "Prince eTAP Disk",
+      "Prince K Disk"
+    ]
+  },
+  {
+    "brand": "Orbea",
+    "models": [
+      "Avant",
+      "Oiz",
+      "Occam",
+      "Rise",
+      "Terra",
+      "MX",
+      "Rallon",
+      "Wild FS",
+      "Wild",
+      "Orca Aero",
+      "Orca OMX",
+      "Avant H40-D",
+      "Occam M30-Eagle",
+      "Rise M-Team",
+      "Terra H40-D",
+      "Rallon M-Team",
+      "Wild FS M-LTD"
+    ]
+  },
+  {
+    "brand": "Colnago",
+    "models": [
+      "C64",
+      "V3RS",
+      "Climber",
+      "G3X",
+      "CX Zero",
+      "Arabesque",
+      "C64 Disc",
+      "V3Rs Disc",
+      "Concept",
+      "K-One",
+      "V2-R",
+      "CLX",
+      "E64",
+      "Colnago C60",
+      "Colnago C59"
+    ]
+  },
+  {
+    "brand": "Fuji",
+    "models": [
+      "Sportif",
+      "Jari",
+      "Transonic",
+      "Norcom Straight",
+      "SL",
+      "Reveal",
+      "Sakura",
+      "Declaration",
+      "Steadfast",
+      "SST",
+      "Track",
+      "Absolute",
+      "D6",
+      "Aloha",
+      "D-6",
+      "D-1"
+    ]
+  },
+  {
+    "brand": "Merida",
+    "models": [
+      "Reacto",
+      "Scultura",
+      "Big Nine",
+      "One-Twenty",
+      "eOne-Sixty",
+      "eBig Nine",
+      "Silex",
+      "Juliet",
+      "Matt's J24",
+      "Matt's J20"
+    ]
+  },
+  {
+    "brand": "Raleigh",
+    "models": ["Redux", "Tokul", "Tamland", "Willard", "Merit"]
+  },
+  {
+    "brand": "Jamis",
+    "models": ["Renegade", "Dragonslayer", "Aurora", "Dakar", "Coda"]
+  },
+  {
+    "brand": "Felt",
+    "models": ["FR", "VR", "IA", "Decree", "Breed"]
+  },
+  {
+    "brand": "Diamondback",
+    "models": ["Release", "Sync'r", "Overdrive", "Haanjo", "Century"]
+  },
+  {
+    "brand": "GT",
+    "models": ["Grade", "Avalanche", "Zaskar", "Fury", "Pantera"]
+  },
+  {
+    "brand": "Kona",
+    "models": ["Process", "Sutra", "Honzo", "Unit", "Libre"]
+  },
+  {
+    "brand": "Norco",
+    "models": ["Range", "Sight", "Revolver", "Charger", "Search"]
+  },
+  {
+    "brand": "Santa Cruz",
+    "models": ["Bronson", "Tallboy", "Megatower", "Heckler", "Blur"]
+  }
+]
