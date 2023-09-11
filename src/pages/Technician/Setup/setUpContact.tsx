@@ -120,7 +120,7 @@ const SetUpContact = () => {
 							placeholder={'Enter Your Current Address '}
 							colorScheme={'third'}
 							onChange={handleChange}
-							value={''}
+							// value={''}
 						/>
 						<InputTechnician
 							id={'phone'}
@@ -131,7 +131,7 @@ const SetUpContact = () => {
 							placeholder={'Enter Your Contact Number '}
 							colorScheme={'third'}
 							onChange={handleChange}
-							value={''}
+							// value={''}
 						/>
 
 						<>

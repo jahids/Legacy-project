@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Flex, Text, Image, Box, Center, Stack, Divider } from '@chakra-ui/react';
 import logo from './../../../../assets/logo(Midnight Blue).svg';
 import AgendaCalendar from '../../../../components/React Big Calender';
@@ -51,10 +52,12 @@ const Agenda = () => {
 	}, []);
 
 	const today = moment().startOf('day');
-	const todayCases = caseData.filter((Case) => Case.supportTime?.timeStamp && moment(Case.supportTime.timeStamp).isSame(today, 'day'));
+	const todayCases = caseData?.filter((Case) => Case.supportTime?.timeStamp && moment(Case.supportTime.timeStamp).isSame(today, 'day'));
 
-	const futureCases = caseData.filter((Case) => Case.supportTime?.timeStamp && moment(Case.supportTime.timeStamp).isAfter(today, 'day'));
+	const futureCases = caseData?.filter((Case) => Case.supportTime?.timeStamp && moment(Case.supportTime.timeStamp).isAfter(today, 'day'));
 
+console.log("feature case", futureCases);
+	
 	return (
 		<Box>
 			<Flex
@@ -131,20 +134,20 @@ const Agenda = () => {
 						</Text>
 					</Center>
 
-					{futureCases && futureCases.length > 0 ? (
+					{futureCases?.length > 0 ? (
 						<Flex
 							direction={'column'}
 							alignItems={'center'}>
-							{futureCases.map((Case, index) => {
-								const clientName = Case.cyclist && typeof Case.cyclist === 'object' && 'name' in Case.cyclist ? (Case.cyclist as Cyclist).name.toLowerCase() : '';
+							{futureCases?.map((Case, index) => {
+								const clientName = Case?.cyclist && typeof Case?.cyclist === 'object' && 'name' in Case.cyclist ? (Case.cyclist as Cyclist).name.toLowerCase() : '';
 
 								return (
 									<CaseBox
 										key={index}
-										caseType={Case.type}
-										date={Case.supportTime.timeStamp}
+										caseType={Case?.type}
+										date={Case?.supportTime.timeStamp}
 										clientName={clientName}
-										time={Case.supportTime.slotTime}
+										time={Case?.supportTime.slotTime}
 									/>
 								);
 							})}

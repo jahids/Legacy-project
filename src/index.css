@@ -5,3 +5,19 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.jKLQUD {
+  background: #c54242 !important;
+  border-radius: 5px !important;
+  box-shadow: rgba(0,0,0,0.15) 0px 1px 2px 0px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  margin: 0 6px 12px 10px;
+  padding: 21px;
+}

@@ -22,6 +22,7 @@ function NavbarDashboard() {
 			console.log(result);
 			if (result && result.status === 200) {
 				Cookies.remove('accessToken');
+				localStorage.clear()
 				navigate('/technician-signin');
 			}
 		} catch (error) {

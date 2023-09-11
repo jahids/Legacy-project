@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {
 	Table,
@@ -15,7 +17,8 @@ import { formatText } from "./../../utils/formatText";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
 import { createPresentableCases } from "../../features/technician/slices/casesPresentationSlice";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
+import CustomInstance from "../../lib/axios";
 
 const TableComponent = ({
 	handleActionChange,
@@ -34,6 +37,19 @@ const TableComponent = ({
 		event.preventDefault();
 		const input = event.target.value;
 
+		// -----** ----
+		const changeStatus = async ()=>{
+            if(input.includes('Closed')){
+                const result = await CustomInstance.get(`/technician/case/${index['Case Id']}/close`);
+                console.log(`result `,result);
+            }
+          
+            // window.location.reload();
+            
+        };
+        changeStatus();
+		// ---- * ----
+
 		if (input) handleActionChange(input, index);
 	};
 
@@ -49,6 +65,18 @@ const TableComponent = ({
 			</Center>
 		);
 	}
+
+	
+	// const [filtertype, setfiltertype] = useState('')
+	
+
+	// // useEffect(() => {
+	// // 	const filtervalue = window.localStorage.getItem("filtertype")
+	// // 	console.log("filter valye", filtervalue);
+	// // 	setfiltertype(filtervalue)
+	// // }, [filtertype])
+	
+	const filtervalue = window.localStorage.getItem("filtertype")
 
 	return (
 		<>
@@ -109,7 +137,7 @@ const TableComponent = ({
 						</Tr>
 					</Thead>
 					<Tbody>
-						{cases?.map((Case: any, index1: number) => (
+						{cases?.filter((item : any)=>item?.Status !== filtervalue).map((Case: any, index1: number) => (
 							<Tr key={index1}>
 								{Object?.values(Case)?.map(
 									(value, index2: number) => {
@@ -213,7 +241,7 @@ const TableComponent = ({
 															onChange={(event) =>
 																handleChange(
 																	event,
-																	index1
+																	Case
 																)
 															}
 														>

@@ -6,7 +6,7 @@ import CustomInstance from "../lib/axios";
 import { baseURL } from "../lib/domain";
 
 // const BASE_URL = 'http://localhost:4000';
-const BASE_URL = "http://192.168.68.50:4000";
+const BASE_URL = "http://192.168.68.51:4000";
 const token = localStorage.getItem("accessToken");
 
 export const createAccount = async (newUser: any) => {

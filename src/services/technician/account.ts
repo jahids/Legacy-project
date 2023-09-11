@@ -39,7 +39,7 @@ export const TechnicianSignInService = async (signInData: Object) => {
 	}
 };
 
-export const TechnicianSetUpService = async (setUpData: Object) => {
+export const TechnicianSetUpService = async (setUpData: any) => {
 	try {
 		return await axios({
 			url: `${baseUrl}/technician/set-up-technician`,
@@ -47,7 +47,8 @@ export const TechnicianSetUpService = async (setUpData: Object) => {
 			withCredentials: true,
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${technicianToken}`,
+				Authorization: `Bearer ${technicianToken ||
+					setUpData?.accessToken}`,
 			},
 			data: setUpData,
 		})

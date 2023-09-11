@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Select } from '@chakra-ui/react';
 
 const FilterComponent = ({ name, options, onChange }: { name: string; options: string[]; onChange: (newOption: string) => void }) => {
@@ -5,9 +6,16 @@ const FilterComponent = ({ name, options, onChange }: { name: string; options: s
 		event.preventDefault();
 		const selectedValue = event.target.value;
 
-		if (onChange) {
-			onChange(selectedValue);
-		}
+		window.localStorage.setItem("filtertype",selectedValue)
+		// location.reload()
+		console.log(selectedValue);
+		
+		// if (onChange) {
+		// 	onChange(selectedValue);
+
+		// 	console.log();
+			
+		// }
 	};
 	return (
 		<>
@@ -27,7 +35,7 @@ const FilterComponent = ({ name, options, onChange }: { name: string; options: s
 				textAlign={'end'}
 				mr={2}
 				onChange={handleOptionChange}>
-				{options.map((option, index) => (
+				{options?.map((option, index) => (
 					<option
 						style={{ backgroundColor: 'white' }}
 						key={index}

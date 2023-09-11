@@ -87,7 +87,7 @@ const Login = () => {
         if (registeredUser) {
           const signInUserData = { email: googleAuthObj.email, password: googleAuthObj.email };
           const token = await userLogin(signInUserData);
-          localStorage.setItem('accessToken', token);
+          window.localStorage.setItem('accessToken', token);
 
           if (token) {
             toast({
@@ -98,7 +98,7 @@ const Login = () => {
               position: 'top-right',
               isClosable: true,
             });
-            if (localStorage.getItem('accessToken')) {
+            if (window.localStorage.getItem('accessToken')) {
               
               const cyclist = await profile(token);
 

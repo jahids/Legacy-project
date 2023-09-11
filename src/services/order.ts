@@ -17,6 +17,7 @@ export const order = async (order: any) => {
 		});
 		const orderDetails = await response.json();
 		console.log(orderDetails);
+		window.localStorage.setItem("chatid", JSON.stringify(orderDetails));
 		return orderDetails;
 	} catch (error) {
 		console.log(error);
@@ -83,9 +84,9 @@ export const getTimeSlots = async (subparts: any) => {
 			}
 		);
 
-		const slots = response.json();
-		console.log("time slots from service", slots);
-		return slots;
+		const results = await response.json();
+		console.log("time results from service", results);
+		return results;
 	} catch (error) {
 		console.log(error);
 	}

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { baseURL } from "./domain";
 
-const accessToken = localStorage.getItem("accessToken");
+const accessToken = window.localStorage.getItem("accessToken");
 
 const CustomInstance = axios.create({
 	baseURL: baseURL,

@@ -9,7 +9,7 @@ const PayPalButton = () => {
     const createOrder = async () => {
         try {
             const response = await axios.post(
-                'http://192.168.68.50:4000/api/create-payment', parsedPassive
+                'http://192.168.68.51:4000/api/create-payment', parsedPassive
             );
             console.log(response);
             const approvalUrl = response.data.approval_url;

@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from "axios";
 import { BASE_URL } from "../../config";
 // const BASE_URL = 'http://localhost:4000';
-const token = localStorage.getItem("accessToken");
+const token = window.localStorage.getItem("accessToken");
 
 export const passiveCase = async (passiveCase: any) => {
 	// console.log('passiveCase from service', passiveCase);

@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 import { Box, Text, Flex, Circle } from '@chakra-ui/react';
 import moment from 'moment';
 
@@ -6,12 +7,19 @@ const caseBoxColor: Record<string, string> = {
 	Passive: '#e57beb',
 };
 
-const CaseBox = ({ caseType, date, clientName, time }: { caseType: string; date: Date | string; clientName: string; time: string }) => {
+const CaseBox = ({ caseType, date, clientName, time = "" }: { caseType: any; date:any; clientName: any; time: any }) => {
+	console.log("casses",caseType, date, clientName,time );
 	const formattedDate = moment(date).format('MMMM Do, YYYY');
-	const [startTimeStr, endTimeStr] = time.split('-');
+	// const [startTimeStr, endTimeStr] = time!.split('-');
+	const [startTimeStr, endTimeStr] = ['4:00','5:00']
+	
 	const startTime = moment(startTimeStr.trim(), 'HH:mm').format('h:mm');
 	const endTime = moment(endTimeStr.trim(), 'HH:mm').format('h:mm');
 	const formattedTime = `${startTime} - ${endTime}`;
+
+
+	
+	
 
 	return (
 		<>

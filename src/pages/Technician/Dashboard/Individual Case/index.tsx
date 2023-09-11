@@ -11,6 +11,7 @@ import {
 	AccordionButton,
 	AccordionPanel,
 } from "@chakra-ui/react";
+import "./hero.css";
 import VideoContainer from "../../../../components/Video Container";
 import TechnicianArticles from "../../../../components/Technician Articles";
 import { AiOutlineRight } from "react-icons/ai";
@@ -26,11 +27,15 @@ import TechnicianAccordian from "../../../../components/TechnicianAccordian";
 import { createDetailedCase } from "../../../../features/technician/slices/caseDetailsSlice";
 import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import AddingNotes from "../../../../components/Adding Notes";
+import axios from "axios";
+import CustomInstance from "../../../../lib/axios";
+import { BASE_URL } from "../../../../../config";
 
 const articles = [
 	{
 		title: "Repair a bike:basics",
-		link: "https://www.thecrucible.org/guides/bike-maintenance/repair-a-bike/",
+		link:
+			"https://www.thecrucible.org/guides/bike-maintenance/repair-a-bike/",
 		author: "John Smith",
 		date: "2023-08-16",
 	},
@@ -42,7 +47,8 @@ const articles = [
 	},
 	{
 		title: "How to adjust bike brakes",
-		link: "https://www.cycleplan.co.uk/cycle-savvy/how-to-adjust-bike-brakes/",
+		link:
+			"https://www.cycleplan.co.uk/cycle-savvy/how-to-adjust-bike-brakes/",
 		author: "Alex Johnson",
 		date: "2023-08-14",
 	},
@@ -50,23 +56,23 @@ const articles = [
 
 const IndividualCase = () => {
 	const src = "https://www.youtube.com/embed/OQsiceeCZ0M";
-	const [videoUrl, setVideoUrl] = useState("");
-	const [searchQuery, setSearchQuery] = useState("");
-
-	const handleSearch = () => {
-		if (searchQuery) {
-			const videoId = searchQuery; // You can add any validation or formatting here
-			const youtubeUrl = `https://www.youtube.com/embed/${videoId}`;
-			setVideoUrl(youtubeUrl);
-		}
-	};
+	const [currentIndex, setCurrentIndex] = useState(0);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [Case, setCase] = useState<any[]>([]);
 	const [bookMark, setBookMark] = useState<boolean>(false);
 	const [bookMarkedVideos, setBookMarkedVideos] = useState<string>("");
-	const [showBookMarkedVideos, setShowBookMarkedVideos] =
-		useState<boolean>(false);
+	const [customsrc, setcustomsrc] = useState("");
+	const [repairtags, setrepairtags] = useState([]);
+	const [backendvideo, setbackendvideo] = useState(null);
+
+	//   useEffect(() => {
+	// 	axios.get(``)
+	//   }, [])
+
+	const [showBookMarkedVideos, setShowBookMarkedVideos] = useState<boolean>(
+		false
+	);
 
 	const id = useParams();
 
@@ -79,19 +85,79 @@ const IndividualCase = () => {
 		setBookMarkedVideos(src);
 	};
 
+	const videoapicall = async () => {
+		console.log("repair tags", repairtags);
+
+		if (repairtags) {
+			const data = await axios.post(`${BASE_URL}/api/yt-search`, {
+				search: repairtags,
+			});
+
+			// if(data?.data){
+			// 	const customidlist = data?.data?.map((item:any)=>videoIds.push(item?.id))
+			// }
+			setcustomsrc(data?.data);
+		}
+	};
+
 	useEffect(() => {
 		const fetchIndividualCaseData = async () => {
 			try {
 				const result = await TechnicianGetCaseByIdService(`${id.id}`);
 
 				setCase(result);
+				console.log("individual id", result[0]?.tags);
+				setrepairtags(result[0]?.tags);
 				dispatch(createDetailedCase(result[0]));
+				videoapicall();
+				setbackendvideo(result[0]?.videoURL);
+				console.log("result[0]?.videoURL");
 			} catch (error) {
 				console.error("Error in component while fetching !");
 			}
 		};
 		fetchIndividualCaseData();
-	}, [id]);
+	}, [dispatch, id, repairtags?.length]);
+
+	// carosel code
+
+	const handlePrevVideo = () => {
+		if (currentIndex > 0) {
+			setCurrentIndex(currentIndex - 1);
+		}
+	};
+
+	const handleNextVideo = () => {
+		if (currentIndex < customsrc.length - 1) {
+			setCurrentIndex(currentIndex + 1);
+		}
+	};
+
+	const renderMedia = () => {
+		if (backendvideo) {
+			if (backendvideo.endsWith(".mp4")) {
+				// If the content is an MP4 video, render a video player
+				return (
+					<video controls width="50%" height="50%">
+						<source src={backendvideo} type="video/mp4" />
+						Your browser does not support the video tag.
+					</video>
+				);
+			} else if (
+				backendvideo.endsWith(".jpg") ||
+				backendvideo.endsWith(".jpeg") ||
+				backendvideo.endsWith(".png") ||
+				backendvideo.endsWith(".gif")
+			) {
+				// If the content is an image, render the image
+				return <img style={{borderRadius : '5px'}} src={backendvideo} alt="Uploaded" />;
+			} else {
+				// Handle other content types here, or return null if not recognized
+				return null;
+			}
+		}
+		return null;
+	};
 
 	return (
 		<>
@@ -182,16 +248,50 @@ const IndividualCase = () => {
 						<Flex mt={"2rem"}>
 							<Box flex={0.55}>
 								<Flex direction={"column"}>
-									<Box w={"55%"} m={"0 auto"}>
+									<Box w={"90%"} m={"0 auto"}>
 										{/* <VideoContainer src={"https://www.youtube.com/embed/OQsiceeCZ0M"} /> */}
-										<iframe
-											width="100%"
-											height="400"
-											src="https://www.youtube.com/embed/OQsiceeCZ0M"
-											title="YouTube video player"
-											frameBorder="0"
-											allowFullScreen
-										></iframe>
+										<div className="hero">
+											<div className="link_container">
+												<h1>XMR Link:</h1>
+												<a
+													href="#"
+													className="url_link"
+												>
+													<span>
+														http://localhost:5174/individual-case/64feda8fffb1392d529b23f6
+													</span>
+												</a>
+											</div>
+
+											{/* <iframe
+												className="videoFrame"
+												width="100%"
+												height="400"
+												src="https://www.youtube.com/embed/OQsiceeCZ0M"
+												title="YouTube video player"
+												frameBorder="0"
+												allowFullScreen
+											></iframe> */}
+
+											{/* <video width="320" height="240" controls>
+											<source src={backendvideo} type="video/mp4">
+											<source src="movie.ogg" type="video/ogg">
+											Your browser does not support the video tag.
+											</video> */}
+
+											{/* <img
+												style={{
+													width: "50%",
+													height: "450",
+													borderRadius: "8px",
+												}}
+												src={backendvideo}
+												alt=""
+												srcset=""
+											/> */}
+
+<Box>{renderMedia()}</Box>
+										</div>
 									</Box>
 
 									<Box
@@ -218,38 +318,34 @@ const IndividualCase = () => {
 										gap={"1rem"}
 									>
 										<Button
+											onClick={handlePrevVideo}
 											bg={"#d9d9d9"}
 											borderRadius={"45%"}
 											color={"secondary"}
 										>
 											<AiOutlineLeft size={20} />
 										</Button>
-										<Box w={"60%"}>
-										<div>
-        <input
-          type="text"
-          placeholder="Enter YouTube video ID"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button onClick={handleSearch}>Search</button>
-      </div>
-      <div>
-        <iframe
-          width="100%"
-          height="400"
-          src={videoUrl}
-          title="YouTube video player"
-          frameBorder="0"
-          allowFullScreen
-        ></iframe>
-      </div>
+										<Box
+											w={"60%"}
+											borderRadius="10px"
+											overflow="hidden"
+										>
+											<iframe
+												width="100%"
+												height="400"
+												src={`https://www.youtube.com/embed/${customsrc[currentIndex]?.id}`}
+												title="YouTube video player"
+												frameBorder="0"
+												allowFullScreen
+												style={{ borderRadius: "10px" }}
+											></iframe>
 										</Box>
 
 										<Button
 											bg={"#d9d9d9"}
 											borderRadius={"45%"}
 											color={"secondary"}
+											onClick={handleNextVideo}
 										>
 											<AiOutlineRight size={20} />
 										</Button>

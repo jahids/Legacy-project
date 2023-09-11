@@ -47,6 +47,7 @@ function Navbar({ theme }: { theme: keyof themeCollections }) {
   const handleClick = async () => {
     const isSignOut = await userLogout();
     if (isSignOut) {
+      localStorage.clear();
       navigate('/login');
     }
   };

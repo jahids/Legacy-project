@@ -81,7 +81,7 @@ const Cases = () => {
 			try {
 				const result = await TechnicianGetAllCasesService();
 				console.log("data come api first time", result);
-				settabledata(extractCaseData(result))
+			 settabledata(extractCaseData(result))
 				dispatch(createCases(tabledata));
 				
 				//dispatch(createPresentableCases(extractCaseData(tabledata)));
@@ -148,7 +148,7 @@ const Cases = () => {
 						<Flex mr={3}>
 							<FilterComponent
 								name={'Status'}
-								options={['Pending', 'In Progress', 'Closed', 'Raised']}
+								options={['ongoing', 'Finished', 'Closed', 'Raised']}
 								onChange={handleStatusFilter}
 							/>
 							<FilterComponent
