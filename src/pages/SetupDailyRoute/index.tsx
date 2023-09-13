@@ -391,6 +391,11 @@ function SetupDailyRoute() {
     mapMarkers.forEach((marker) => marker.remove());
     setMapMarkers([]);
     setDirections([{ distance: 0 }]);
+    
+    // --- 
+    setHomeLocation('')
+    setWorkLocation('')
+
   }
 
   // new code added
@@ -466,7 +471,7 @@ function SetupDailyRoute() {
               }}
               country="de"
               resetSearch={false}
-              placeholder={homeLocation ? homeLocation : "Search Home Location"}
+              placeholder={homeLocation ? homeLocation : 'Search your home location' }
               defaultValue={homeLocation}
               ref={mapboxAutocompleteRef1} // Set the ref here
             />
@@ -492,7 +497,7 @@ function SetupDailyRoute() {
               }
               country="de"
               resetSearch={false}
-              placeholder={workLocation ? workLocation : "Search Work Location"}
+              placeholder={workLocation ? workLocation : 'Search your work location'}
               ref={mapboxAutocompleteRef2} // Set the ref here
             />
           </div>

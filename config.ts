@@ -7,4 +7,4 @@ export const config = {
 
 export const BASE_URL = "http://192.168.68.51:4000";
 
-export const X_REALITY = "";
+export const X_REALITY = "https://call.xmreality.com/RqbTeiOtXKOFCOT6Qd";

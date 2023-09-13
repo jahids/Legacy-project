@@ -66,7 +66,7 @@ const setCard = ({
               {healthState !== '' ? (
                 <>
                   <Text fontSize={'1rem'} position={'absolute'} right={'43px'}>
-                    {`${healthState}%`}
+                    {`${Math.round(healthState)}%`}
                   </Text>
 
                   <CircularProgress color={'#001F3F'} value={healthState || 0} size='5.5rem' mr={5} />

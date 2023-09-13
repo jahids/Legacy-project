@@ -12,7 +12,7 @@ import { useAppSelector } from '../../app/hooks';
 import { useState } from 'react';
 
 const SetupDailyCommute = () => {
-  const [switchChecked, setSwitchChecked] = useState<boolean>(false);
+  const [switchChecked, setSwitchChecked] = useState<boolean>(true);
 
   const { days, unpavedRoad, totalDistance } = useAppSelector((state) => state.commute);
 
@@ -51,6 +51,7 @@ const SetupDailyCommute = () => {
 
       <HStack my={5}>
         <Text color={'accent'}>No</Text>
+        {/* <SetSwitch color='teal' setFullrevision={setSwitchChecked}></SetSwitch> */}
         <SetSwitch color='teal' setFullrevision={setSwitchChecked}></SetSwitch>
 
         <Text color={'accent'}>Yes</Text>

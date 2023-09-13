@@ -34,17 +34,21 @@ const TableComponent = ({
 		event: ChangeEvent<HTMLSelectElement>,
 		index: number
 	) => {
+
+		console.log("target event", index );
+		
 		event.preventDefault();
 		const input = event.target.value;
 
 		// -----** ----
 		const changeStatus = async ()=>{
-            if(input.includes('Closed')){
+            
                 const result = await CustomInstance.get(`/technician/case/${index['Case Id']}/close`);
                 console.log(`result `,result);
-            }
+
+        
           
-            // window.location.reload();
+            window.location.reload();
             
         };
         changeStatus();
@@ -209,84 +213,60 @@ const TableComponent = ({
 													borderBottom={"0"}
 												>
 													<Flex
-														justify={"center"}
-														alignItems={"center"}
-													>
-														<Select
-															variant="unstyled"
-															_hover={{
-																background:
-																	"#d1fbbd",
-																color: "secondary",
-																outlineColor:
-																	"secondary",
-															}}
-															w={"20"}
-															h={"10"}
-															_placeholder={{
-																backgroundColor:
-																	"white",
-															}}
-															size="md"
-															fontFamily={"Inter"}
-															fontSize={"1rem"}
-															fontWeight={"600"}
-															focusBorderColor="secondary"
-															iconSize="25"
-															textAlign={"end"}
-															mr={2}
-															borderRadius={15}
-															bg={"secondary"}
-															color={"accent"}
-															onChange={(event) =>
-																handleChange(
-																	event,
-																	Case
-																)
-															}
-														>
-															<option
-																value="Raised"
-																style={{
-																	backgroundColor:
-																		"white",
-																}}
-															>
-																Raise
-															</option>
-															<option
-																value="Closed"
-																style={{
-																	backgroundColor:
-																		"white",
-																}}
-															>
-																Close
-															</option>
-														</Select>
-														<Button
-															onClick={() =>
-																navigate(
-																	`/individual-case/${value}`
-																)
-															}
-															_hover={{
-																background:
-																	"primary",
-																color: "secondary",
-																outlineColor:
-																	"third",
-															}}
-															w={"20"}
-															h={"10"}
-															size={"10"}
-															bg={"third"}
-															borderRadius={15}
-															color={"secondary"}
-														>
-															View
-														</Button>
-													</Flex>
+  justify={"center"}
+  alignItems={"center"}
+>
+  <Button
+    variant="unstyled"
+    _hover={{
+      background: "#d1fbbd",
+      color: "secondary",
+      outlineColor: "secondary",
+    }}
+    w={"20"}
+    h={"10"}
+    _placeholder={{
+      backgroundColor: "white",
+    }}
+    size="md"
+    fontFamily={"Inter"}
+    fontSize={"1rem"}
+    fontWeight={"600"}
+    focusBorderColor="secondary"
+    iconSize="25"
+    textAlign={"end"}
+    mr={3}
+    borderRadius={15}
+    bg={"secondary"}
+    color={"accent"}
+    onClick={(event : any) =>
+		handleChange(
+			event,
+			Case
+		)
+	}
+  >
+    <span style={{margin : "15px"}} >Close</span>
+  </Button>
+  <Button
+    onClick={() =>
+      navigate(`/individual-case/${value}`)
+    }
+    _hover={{
+      background: "primary",
+      color: "secondary",
+      outlineColor: "third",
+    }}
+    w={"20"}
+    h={"10"}
+    size={"10"}
+    bg={"third"}
+    borderRadius={15}
+    color={"secondary"}
+  >
+    View
+  </Button>
+</Flex>
 												</Td>
 											);
 										}

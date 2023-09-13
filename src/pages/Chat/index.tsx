@@ -10,6 +10,7 @@ import { getTimeSlots, order } from "../../services/order";
 import { getCaseNumber, passiveCase } from "../../services/cases";
 import { useNavigate } from "react-router-dom";
 import FileUpload from "./FileUpload";
+import { X_REALITY } from "../../../config";
 
 
 
@@ -151,7 +152,7 @@ const arr: any[] = [
         stepId : 'step9',
         data: [
             "Great. You have a call booked for Wed, 23 Aug at 9:00",
-            "Download the meeting link to have it in your calendar",
+            "Download the xmreality call  link to have it in your calendar",
         ],
         from: "bot",
     },
@@ -182,7 +183,7 @@ const arr: any[] = [
 const Chat: React.FC = () => {
     const meetingLink = (
         <a
-            href={"https://meet.google.com/tvy-dffh-aid"}
+            href={X_REALITY}
             style={{ textDecoration: "underline" }}
         >
             meeting link

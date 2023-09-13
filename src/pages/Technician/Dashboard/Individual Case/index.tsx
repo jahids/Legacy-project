@@ -29,7 +29,7 @@ import { AddIcon, MinusIcon } from "@chakra-ui/icons";
 import AddingNotes from "../../../../components/Adding Notes";
 import axios from "axios";
 import CustomInstance from "../../../../lib/axios";
-import { BASE_URL } from "../../../../../config";
+import { BASE_URL, X_REALITY } from "../../../../../config";
 
 const articles = [
 	{
@@ -150,7 +150,7 @@ const IndividualCase = () => {
 				backendvideo.endsWith(".gif")
 			) {
 				// If the content is an image, render the image
-				return <img style={{borderRadius : '5px'}} src={backendvideo} alt="Uploaded" />;
+				return <img style={{borderRadius : '5px' }} src={backendvideo} alt="Uploaded" />;
 			} else {
 				// Handle other content types here, or return null if not recognized
 				return null;
@@ -249,48 +249,27 @@ const IndividualCase = () => {
 							<Box flex={0.55}>
 								<Flex direction={"column"}>
 									<Box w={"90%"} m={"0 auto"}>
-										{/* <VideoContainer src={"https://www.youtube.com/embed/OQsiceeCZ0M"} /> */}
+									
 										<div className="hero">
 											<div className="link_container">
-												<h1>XMR Link:</h1>
+												<div>
+
+												<h1>XM REALITY Link:</h1>
 												<a
-													href="#"
+													href={X_REALITY}
+													target="_blank"
 													className="url_link"
 												>
 													<span>
-														http://localhost:5174/individual-case/64feda8fffb1392d529b23f6
+													{X_REALITY}
 													</span>
 												</a>
+												</div>
+												<div className="video_frame" style={{width: '500px'}}>
+												    {renderMedia()}
+												</div>
 											</div>
-
-											{/* <iframe
-												className="videoFrame"
-												width="100%"
-												height="400"
-												src="https://www.youtube.com/embed/OQsiceeCZ0M"
-												title="YouTube video player"
-												frameBorder="0"
-												allowFullScreen
-											></iframe> */}
-
-											{/* <video width="320" height="240" controls>
-											<source src={backendvideo} type="video/mp4">
-											<source src="movie.ogg" type="video/ogg">
-											Your browser does not support the video tag.
-											</video> */}
-
-											{/* <img
-												style={{
-													width: "50%",
-													height: "450",
-													borderRadius: "8px",
-												}}
-												src={backendvideo}
-												alt=""
-												srcset=""
-											/> */}
-
-<Box>{renderMedia()}</Box>
+											
 										</div>
 									</Box>
 
@@ -299,6 +278,7 @@ const IndividualCase = () => {
 										m={"1rem auto"}
 										boxShadow={"2xl"}
 										borderRadius={"md"}
+										style={{marginTop: '50px'}}
 									>
 										<TechnicianAccordian></TechnicianAccordian>
 									</Box>
